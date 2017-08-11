@@ -28,6 +28,8 @@ const EVENT_HANDLERS = [
   'onFocus',
   'onCopy',
   'onCut',
+  'onDragEnter',
+  'onDragLeave',
   'onDrop',
   'onKeyDown',
   'onPaste',

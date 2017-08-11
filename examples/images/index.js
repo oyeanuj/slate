@@ -133,6 +133,8 @@ class Images extends React.Component {
           schema={schema}
           state={this.state.state}
           onChange={this.onChange}
+          onDragEnter={this.onDragEnter}
+          onDragLeave={this.onDragLeave}
           onDrop={this.onDrop}
           onPaste={this.onPaste}
         />
@@ -164,6 +166,16 @@ class Images extends React.Component {
     state = this.insertImage(state, null, src)
     this.onChange(state)
   }
+
+
+  onDragEnter = (e, data, state, editor) => {
+    console.log("Drag Enter event fired.");
+  };
+
+
+  onDragLeave = (e, data, state, editor) => {
+    console.log("Drag Leave event fired.");
+  };
 
   /**
    * On drop, insert the image wherever it is dropped.

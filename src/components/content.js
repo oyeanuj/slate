@@ -52,6 +52,8 @@ class Content extends React.Component {
     onCopy: Types.func.isRequired,
     onCut: Types.func.isRequired,
     onDrop: Types.func.isRequired,
+    onDragEnter: Types.func,
+    onDragLeave: Types.func,
     onFocus: Types.func.isRequired,
     onKeyDown: Types.func.isRequired,
     onPaste: Types.func.isRequired,
@@ -436,6 +438,50 @@ class Content extends React.Component {
 
     debug('onDragEnd', { event })
   }
+
+  /**
+   * On drag enter, call the passed callback
+   *
+   * @param {Event} event
+   */
+
+  onDragEnter = (event) => {
+    if (this.props.readOnly) return
+    if (!this.isInEditor(event.target)) return
+
+    //Don't block event if there is no callback
+    if (!this.props.onDragEnter) return
+
+    event.preventDefault()
+    const { dataTransfer } = event.nativeEvent
+    const data = getTransferData(dataTransfer)
+
+    debug('onDragEnter', { event })
+    this.props.onDragEnter(event, data)
+
+  }
+
+
+   /**
+    * On drag leave, call the passed callback
+    *
+    * @param {Event} event
+    */
+
+   onDragLeave = (event) => {
+     if (this.props.readOnly) return
+     if (!this.isInEditor(event.target)) return
+
+     //Don't block event if there is no callback
+     if (!this.props.onDragEnter) return
+
+     event.preventDefault()
+     const { dataTransfer } = event.nativeEvent
+     const data = getTransferData(dataTransfer)
+
+     debug('onDragLeave', { event })
+     this.props.onDragLeave(event, data)
+   }
 
   /**
    * On drag over, set the `isDragging` flag and the `isInternalDrag` flag.
@@ -869,6 +915,8 @@ class Content extends React.Component {
         onCopy={this.onCopy}
         onCut={this.onCut}
         onDragEnd={this.onDragEnd}
+        onDragEnter={this.onDragEnter}
+        onDragLeave={this.onDragLeave}
         onDragOver={this.onDragOver}
         onDragStart={this.onDragStart}
         onDrop={this.onDrop}
